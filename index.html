@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management Dashboard</title>
+    
+    <!-- Modern Font: Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- SheetJS for Excel Parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <div class="logo">
+                <i data-lucide="graduation-cap"></i>
+                <h1>Student Portal</h1>
+            </div>
+            <p>Manage and analyze active student records</p>
+        </header>
+
+        <main class="main-content">
+            <!-- Upload Area Section -->
+            <section class="upload-section">
+                <div class="dropzone" id="dropzone">
+                    <i data-lucide="upload-cloud" class="upload-icon"></i>
+                    <h2>Upload Student List (Excel)</h2>
+                    <p>Drag & drop or click to browse</p>
+                    <input type="file" id="fileInput" accept=".xlsx, .xls, .csv" hidden />
+                    <button class="btn-primary" onclick="document.getElementById('fileInput').click()">Select File</button>
+                    
+                    <p class="upload-tip mt-4">
+                        <small>Expects: Name, Status (Active/Deactive)</small>
+                    </p>
+                </div>
+            </section>
+
+            <!-- Dashboard Analytics Section -->
+            <section class="dashboard-section hidden" id="dashboard">
+                <!-- Action Bar -->
+                <div class="action-bar mb-4" style="text-align: right; margin-bottom: 2rem;">
+                    <button class="btn-outline" onclick="location.reload()"><i data-lucide="refresh-cw" style="width: 16px; margin-right: 8px; vertical-align: middle;"></i> Upload New</button>
+                </div>
+            
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon active-icon"><i data-lucide="user-check"></i></div>
+                        <div class="metric-info">
+                            <h3>Active Students</h3>
+                            <p class="metric-value" id="activeCount">0</p>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon inactive-icon"><i data-lucide="user-minus"></i></div>
+                        <div class="metric-info">
+                            <h3>Deactivated Students</h3>
+                            <p class="metric-value" id="inactiveCount">0</p>
+                        </div>
+                    </div>
+                    <div class="metric-card" title="Number of names that appear multiple times">
+                        <div class="metric-icon duplicate-icon"><i data-lucide="users"></i></div>
+                        <div class="metric-info">
+                            <h3>Duplicate Names</h3>
+                            <p class="metric-value" id="duplicateCount">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="details-section">
+                    <!-- Standard List Panel -->
+                    <div class="panel list-panel">
+                        <div class="panel-header">
+                            <h2>All Students</h2>
+                        </div>
+                        <div class="table-container">
+                            <table id="studentsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Status</th>
+                                        <th>Roll / ID</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Rows populated via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Duplicates Panel to Bifurcate Duplicate Names -->
+                    <div class="panel duplicate-panel">
+                        <div class="panel-header">
+                            <h2 class="alert-title"><i data-lucide="alert-circle"></i> Bifurcated Duplicate Names</h2>
+                        </div>
+                        <div class="table-container">
+                            <table class="duplicates-table" id="duplicatesTable">
+                                <thead>
+                                    <tr>
+                                        <th>Name Variant</th>
+                                        <th>Instances</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Rows populated via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
